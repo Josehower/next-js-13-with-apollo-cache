@@ -6,7 +6,7 @@
 yarn add @apollo/client graphql
 ```
 
-2. Create apolloClient.ts in util folder:
+2. Create apolloClient.ts in `util` folder:
 
 ```typescript
 import { ApolloClient, InMemoryCache } from '@apollo/client';
@@ -26,8 +26,8 @@ export const client = new ApolloClient({
 export async function getUser() {
   const user = await client.query({
     query: gql`
-        <YOUR_QUERY>
-      `,
+      <YOUR_QUERY>
+    `,
   });
   return user;
 }
