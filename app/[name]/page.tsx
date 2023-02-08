@@ -1,7 +1,21 @@
-import { getUser } from '@/util/graphQL/users';
+import { getUserByUsername } from '@/util/graphQL/users';
+import React from 'react';
 
-export default async function HomePage() {
-  const githubProfile = await getUser();
+export const dynamic = 'force-dynamic';
+
+type Props = {
+  params: {
+    [key: string]: string;
+  };
+};
+
+export default async function GitHubProfilePage(props: Props) {
+  if (!props.params.name) {
+    throw new Error('No username provided!');
+  }
+
+  const githubProfile = await getUserByUsername(props.params.name);
+
   return (
     <main>
       <h1>{githubProfile.data.user.name}'s Profile</h1>
