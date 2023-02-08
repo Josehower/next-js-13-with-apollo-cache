@@ -7,6 +7,27 @@ This guide will show you how to setup GraphQL with Apollo Client in a Next.js pr
 - A Next.js project
 - A GraphQL API endpoint to query
 
+### GitHub Access Token
+
+To access the GitHub GraphQL API, you will need to generate a personal access token. You can generate a personal access token by following the steps below:
+
+1. Navigate to your [GitHub settings](https://github.com/settings/profile) and select the **Developer settings** option from the left sidebar
+
+2. From the developer settings page, select **Personal access tokens** and then click on **Tokens (classic)**
+
+3. Click on **Generate new token** and select **Generate new token (classic)**
+
+4. Give your token a descriptive name, such as "GitHub API", and select the following scopes:
+
+- `repo` (full control of private repositories)
+- `user` (read/write access to profile info)
+
+5. Click on **Generate token** to create the token
+
+6. Save the generated token securely, as it will only be shown once. This will be your API key, which you can use to authenticate your API requests to the GitHub API
+
+**Important**: API tokens provide full access to your GitHub account and should be treated with the same care as a password. Do not share your API key with anyone and make sure to revoke it immediately if it is compromised.
+
 ### GraphQL setup with Apollo Client
 
 1. In your terminal, run the following command to install the necessary dependencies:
