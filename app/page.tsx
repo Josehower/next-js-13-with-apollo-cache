@@ -1,18 +1,31 @@
-import { initializeApollo } from '@/util/apolloClients';
-import { getUserByUsername } from '@/util/graphQL/users';
-import ApolloWrapper from './ApolloWrapper';
+import { initializeApollo } from '@/util/client';
+import { gql } from '@apollo/client';
+import Animals from './Animals';
+import ApolloClientProvider from './ApolloClientProvider ';
 
 export default async function HomePage() {
-  const githubClient = initializeApollo(null);
+  const client = initializeApollo(null);
 
-  const profile = await getUserByUsername('prochaLu', githubClient);
+  await client.query({
+    query: gql`
+      query getAnimals {
+        animals {
+          id
+          accessory
+          firstName
+          type
+        }
+      }
+    `,
+  });
 
   return (
     <main>
-      <ApolloWrapper
-        profile={profile}
-        initialApolloState={JSON.stringify(githubClient.cache.extract())}
-      />
+      <ApolloClientProvider
+        initialApolloState={JSON.stringify(client.cache.extract())}
+      >
+        <Animals />
+      </ApolloClientProvider>
     </main>
   );
 }
