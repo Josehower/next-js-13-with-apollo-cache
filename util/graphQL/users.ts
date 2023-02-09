@@ -15,7 +15,7 @@ export type GithubProfile = {
   };
 };
 
-export async function getUserByUsername(username: string, client) {
+export async function getUserByUsername(username: string, client: Client) {
   const githubProfile = await client.query<{ user: GithubProfile }>({
     query: gql`
         query profileQuery($username: String = "${username}") {

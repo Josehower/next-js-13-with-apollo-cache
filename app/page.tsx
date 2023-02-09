@@ -11,7 +11,7 @@ export default async function HomePage() {
     <main>
       <ApolloWrapper
         profile={profile}
-        initialApolloState={githubClient.cache.extract()}
+        initialApolloState={JSON.stringify(githubClient.cache.extract())}
       />
     </main>
   );

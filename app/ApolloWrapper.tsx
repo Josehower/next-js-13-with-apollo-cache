@@ -32,7 +32,7 @@ const githubQuery = gql`
 // });
 
 export default function ApolloWrapper(props) {
-  const apolloClient = useApollo(props.initialApolloState);
+  const apolloClient = useApollo(JSON.parse(props.initialApolloState));
   return (
     <ApolloProvider client={apolloClient}>
       <GitHubProfile />
