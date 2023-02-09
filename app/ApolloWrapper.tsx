@@ -4,6 +4,10 @@ import { useApollo } from '@/util/apolloClients';
 import { ApolloProvider, gql, useQuery } from '@apollo/client';
 import { useState } from 'react';
 
+type Props = {
+  initialApolloState: string;
+};
+
 const githubQuery = gql`
   query profileQuery($name: String!) {
     user(login: $name) {
@@ -23,26 +27,8 @@ const githubQuery = gql`
   }
 `;
 
-// const client = new ApolloClient({
-//   uri: 'https://api.github.com/graphql',
-//   cache: new InMemoryCache(),
-//   headers: {
-//     authorization: 'Bearer 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',
-//   },
-// });
-
-export default function ApolloWrapper(props) {
-  const apolloClient = useApollo(JSON.parse(props.initialApolloState));
-  return (
-    <ApolloProvider client={apolloClient}>
-      <GitHubProfile />
-    </ApolloProvider>
-  );
-}
-
 function GitHubProfile() {
-  const [username, setUsername] = useState('prochaLu');
-  // const [currentProfile, setCurrentProfile] = useState(profile);
+  const [username, setUsername] = useState('');
 
   const { loading, error, data, refetch } = useQuery(githubQuery, {
     variables: {
@@ -50,23 +36,25 @@ function GitHubProfile() {
     },
   });
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Oop something went wrong</p>;
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{`Error! ${error.message}`}</div>;
 
   return (
     <div>
-      <input
-        value={username}
-        onChange={(event) => setUsername(event.currentTarget.value)}
-      />
-      <button
-        onClick={async (event) => {
-          event.preventDefault();
-          await refetch({ name: username });
-        }}
-      >
-        Get Profile
-      </button>
+      <form>
+        <input
+          value={username}
+          onChange={(event) => setUsername(event.currentTarget.value)}
+        />
+        <button
+          onClick={async (event) => {
+            event.preventDefault();
+            await refetch({ name: username });
+          }}
+        >
+          Get Profile
+        </button>
+      </form>
       <h1>{data.user.name}'s Profile</h1>
       <img src={data.user.avatarUrl} alt={`${data.user.name}'s avatar`} />
       <h2>{data.user.bio}</h2>
@@ -77,5 +65,14 @@ function GitHubProfile() {
         </li>
       ))}
     </div>
+  );
+}
+
+export default function ApolloWrapper(props: Props) {
+  const apolloClient = useApollo(JSON.parse(props.initialApolloState));
+  return (
+    <ApolloProvider client={apolloClient}>
+      <GitHubProfile />
+    </ApolloProvider>
   );
 }

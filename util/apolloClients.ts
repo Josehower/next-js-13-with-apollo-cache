@@ -3,27 +3,6 @@ import { useMemo } from 'react';
 
 let apolloClient;
 
-// function createIsomorphLink() {
-//   if (typeof window === 'undefined') {
-//     const { SchemaLink } = require('@apollo/client/link/schema');
-//     const { schema } = require('../pages/api/graphql');
-//     return new SchemaLink({ schema });
-//   } else {
-//     const { HttpLink } = require('@apollo/client/link/http');
-//     return new HttpLink({
-//       uri: '/api/graphql',
-//       credentials: 'same-origin',
-//     });
-//   }
-// }
-
-// function createApolloClient() {
-//   return new ApolloClient({
-//     ssrMode: typeof window === 'undefined',
-//     link: createIsomorphLink(),
-//     cache: new InMemoryCache(),
-//   });
-// }
 function createApolloClient() {
   return new ApolloClient({
     uri: 'https://api.github.com/graphql',
@@ -54,11 +33,3 @@ export function useApollo(initialState) {
   const store = useMemo(() => initializeApollo(initialState), [initialState]);
   return store;
 }
-
-// export const githubClient = new ApolloClient({
-//   uri: 'https://api.github.com/graphql',
-//   cache: new InMemoryCache(),
-//   headers: {
-//     authorization: `Bearer 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`,
-//   },
-// });

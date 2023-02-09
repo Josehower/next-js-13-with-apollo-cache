@@ -1,6 +1,10 @@
 import { gql } from '@apollo/client';
 
-export type GithubProfile = {
+export type Client = {
+  query: (arg0: { query: any }) => Promise<UserProfile>;
+};
+
+export type UserProfile = {
   name: string;
   bio: string;
   avatarUrl: string;
@@ -16,7 +20,7 @@ export type GithubProfile = {
 };
 
 export async function getUserByUsername(username: string, client: Client) {
-  const githubProfile = await client.query<{ user: GithubProfile }>({
+  const githubProfile = await client.query({
     query: gql`
         query profileQuery($username: String = "${username}") {
           user(login: $username) {
