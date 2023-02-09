@@ -1,12 +1,7 @@
 'use client';
 
-import {
-  ApolloClient,
-  ApolloProvider,
-  gql,
-  InMemoryCache,
-  useQuery,
-} from '@apollo/client';
+import { useApollo } from '@/util/apolloClients';
+import { ApolloProvider, gql, useQuery } from '@apollo/client';
 import { useState } from 'react';
 
 const githubQuery = gql`
@@ -28,23 +23,24 @@ const githubQuery = gql`
   }
 `;
 
-const client = new ApolloClient({
-  uri: 'https://api.github.com/graphql',
-  cache: new InMemoryCache(),
-  headers: {
-    authorization: 'Bearer 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',
-  },
-});
+// const client = new ApolloClient({
+//   uri: 'https://api.github.com/graphql',
+//   cache: new InMemoryCache(),
+//   headers: {
+//     authorization: 'Bearer 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',
+//   },
+// });
 
 export default function ApolloWrapper(props) {
+  const apolloClient = useApollo(props.initialApolloState);
   return (
-    <ApolloProvider client={client}>
-      <GitHubProfile profile={props.profile} />
+    <ApolloProvider client={apolloClient}>
+      <GitHubProfile />
     </ApolloProvider>
   );
 }
 
-function GitHubProfile({ profile }) {
+function GitHubProfile() {
   const [username, setUsername] = useState('prochaLu');
   // const [currentProfile, setCurrentProfile] = useState(profile);
 

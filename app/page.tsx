@@ -1,12 +1,18 @@
+import { initializeApollo } from '@/util/apolloClients';
 import { getUserByUsername } from '@/util/graphQL/users';
-import ApolloWrapper from './GitHubProfile';
+import ApolloWrapper from './ApolloWrapper';
 
 export default async function HomePage() {
-  const profile = await getUserByUsername('prochaLu');
+  const githubClient = initializeApollo(null);
+
+  const profile = await getUserByUsername('prochaLu', githubClient);
 
   return (
     <main>
-      <ApolloWrapper profile={profile} />
+      <ApolloWrapper
+        profile={profile}
+        initialApolloState={githubClient.cache.extract()}
+      />
     </main>
   );
 }
