@@ -9,7 +9,7 @@ type Props = {
   };
 };
 
-export default async function GitHubProfilePage(props: Props) {
+export default async function ProfilePage(props: Props) {
   if (!props.params.name) {
     throw new Error('No username provided!');
   }
